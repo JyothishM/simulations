@@ -74,7 +74,7 @@ bool FHDiffraction::Init()
     mConst2 = i(mK/(2*mZ));
     mConst3 = i(2*Pi/(mLamda*mZ));
 
-    qDebug() <<"lamda = " << mLamda << ", K=" << mK;
+    qDebug() << "lamda(wavelength) = " << mLamda << ", K=" << mK;
     qDebug() << "Init: const1,const2,const3 =" << mConst1.ToString() << mConst2.ToString() << mConst3.ToString();
 
     return true;

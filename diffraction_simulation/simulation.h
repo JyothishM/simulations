@@ -2,10 +2,12 @@
 #define SIMULATION_H
 
 #include <QObject>
+#include <QVariantList>
 #include "fhdiffraction.h"
 
 class Beam;
 class Apperture;
+typedef QList<QVariantList> CSVTable;
 
 class Simulation : public QObject
 {
@@ -28,6 +30,8 @@ public:
 
     Simulation(BeamType beamType,
                AppertureType AppType,
+               double lamda, // wavelength
+               double z,
                double screenXmin,double screenXmax,double screenXStep,
                QString filename,
                double xMin=-1e-2,double xMax=1e-2,
@@ -36,6 +40,8 @@ public:
                QObject* parent=0);
     Simulation(QString strBeamType,
                QString strAppType,
+               double lamda, // wavelength
+               double z,
                double screenXmin,double screenXmax,double screenXStep,
                QString filename,
                double xMin=-1e-2,double xMax=1e-2,
@@ -47,6 +53,8 @@ public:
 private:
     void Init(BeamType beamType,
               AppertureType AppType,
+              double lamda, // wavelength
+              double z,
               double screenXmin,double screenXmax,double screenXStep,
               QString filename,
               double xMin,double xMax,
@@ -57,6 +65,8 @@ private:
     bool Verify(Beam* beam,Apperture* apperture);
     BeamType FindBeamType(QString strBeamtype);
     AppertureType FindAppertureType(QString strAppType);
+    void DoSimulation(CSVTable& table);
+    void WriteToFile(CSVTable& table);
 
 
     FHDiffraction* mFHdiff;

@@ -8,16 +8,20 @@
 
 Simulation::Simulation(BeamType beamType,
                        AppertureType AppType,
-                       double screenXmin, double screenXmax,double screenXStep,
+                       double lamda,
+                       double z,
+                       double screenXmin,double screenXmax,
+                       double screenXStep,
                        QString filename,
                        double xMin,double xMax,
-                       double yMin,double yMax,
-                       double tolerance,
-                       QObject *parent)
+                       double yMin,
+                       double yMax, double tolerance, QObject *parent)
     : QObject(parent)
 {
     Init(beamType,
          AppType,
+         lamda,
+         z,
          screenXmin,screenXmax,screenXStep,
          filename,xMin,
          xMax,yMin,
@@ -26,6 +30,8 @@ Simulation::Simulation(BeamType beamType,
 }
 Simulation::Simulation(QString strBeamType,
                        QString strAppType,
+                       double lamda, // wavelength
+                       double z,
                        double screenXmin, double screenXmax,double screenXStep,
                        QString filename,
                        double xMin,double xMax,
@@ -36,6 +42,8 @@ Simulation::Simulation(QString strBeamType,
 {
     Init(FindBeamType(strBeamType),
          FindAppertureType(strAppType),
+         lamda,
+         z,
          screenXmin,screenXmax,screenXStep,
          filename,xMin,
          xMax,yMin,
@@ -60,54 +68,17 @@ int Simulation::Start()
     mFHdiff->SetApperture(apperture);
     mFHdiff->Init();
 
-//    double y = 0;
-//    for(double x=mScreenXmin; x<= mScreenXmax; x+=mScreenXStep)
-//    {
-//        qDebug() << mFHdiff->IntensityAt(x,y);
-//    }
-
-
-    /////////////////////////////////////////////////////////////
-
     CSVTable table;
-    QVariantList header;
-    header << "x" << "Intensity";
-    table << header;
-
-    double y = 0;
-    int NofEval = (mScreenXmax-mScreenXmin)/mScreenXStep;
-    int i=1;
-    for(double x=mScreenXmin; x<= mScreenXmax; x+=mScreenXStep)
-    {
-        double intensity = mFHdiff->IntensityAt(x,y);
-        QVariantList line;
-        line << x << intensity;
-        table << line;
-        qDebug() << tr("Intensity at x =%0, %1").arg(x).arg(intensity);
-        qDebug() << tr("%0 % of simulation completed.").arg(((float)i)*100/NofEval);
-        i++;
-    }
-
-
-    QFile file(mFileName);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        qDebug() << tr("Output file %0 is succesfully opened").arg(mFileName);
-        bool succes = CSVwriter::WriteCSV(&file,table);
-        qDebug() << tr("Writing succes =%0").arg(succes);
-        file.close();
-        qDebug() << tr("Output file %0 is closed.").arg(mFileName);
-    }
-    else
-    {
-        qDebug() << tr("Output file %0 is could not be opened").arg(mFileName);
-    }
+    DoSimulation(table);
+    WriteToFile(table);
 
     return 0;
 }
 // private
 void Simulation::Init(BeamType beamType,
                       AppertureType AppType,
+                      double lamda, // wavelength
+                      double z,
                       double screenXmin, double screenXmax,double screenXStep,
                       QString filename,double xMin,
                       double xMax, double yMin,
@@ -124,6 +95,8 @@ void Simulation::Init(BeamType beamType,
     mFHdiff->SetEvaluationConfig(xMin,xMax,
                                  yMin,yMax,
                                  tolerance);
+    mFHdiff->SetLamda(lamda);
+    mFHdiff->SetZ(z);
 }
 Beam* Simulation::CreateBeam(BeamType beamType)
 {
@@ -191,4 +164,40 @@ Simulation::AppertureType Simulation::FindAppertureType(QString strAppType)
     else if(!strAppType.compare("CROSS_WIRE",Qt::CaseInsensitive))
         appType = CROSS_WIRE;
     return appType;
+}
+void Simulation::DoSimulation(CSVTable& table)
+{
+    QVariantList header;
+    header << "x" << "Intensity";
+    table << header;
+
+    double y = 0;
+    int NofEval = (mScreenXmax-mScreenXmin)/mScreenXStep;
+    int i=1;
+    for(double x=mScreenXmin; x<= mScreenXmax; x+=mScreenXStep)
+    {
+        double intensity = mFHdiff->IntensityAt(x,y);
+        QVariantList line;
+        line << x << intensity;
+        table << line;
+        qDebug() << tr("Intensity at x =%0, %1").arg(x).arg(intensity);
+        qDebug() << tr("%0 % of simulation completed.").arg(((float)i)*100/NofEval);
+        i++;
+    }
+}
+void Simulation::WriteToFile(CSVTable& table)
+{
+    QFile file(mFileName);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        qDebug() << tr("Output file %0 is succesfully opened").arg(mFileName);
+        bool succes = CSVwriter::WriteCSV(&file,table);
+        qDebug() << tr("Writing succes =%0").arg(succes);
+        file.close();
+        qDebug() << tr("Output file %0 is closed.").arg(mFileName);
+    }
+    else
+    {
+        qDebug() << tr("Output file %0 is could not be opened").arg(mFileName);
+    }
 }
