@@ -22,7 +22,7 @@ FHDiffraction::FHDiffraction(QObject *parent)
     mBeam = 0;
 
     mXmin = -3e-2;   mXmax = 3e-2;
-    mYmin = -3e-2;   mYmax = 4e-2;
+    mYmin = -3e-2;   mYmax = 3e-2;
     mTol = 2e-6;
 }
 FHDiffraction::~FHDiffraction()
