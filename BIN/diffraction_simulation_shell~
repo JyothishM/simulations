@@ -1,5 +1,5 @@
 export LD_LIBRARY_PATH="simulation_math/debug:simulation_utilities/debug"
 
-./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_SLIT -4e-2 4e-2 1e-3   "singleslit_1.csv"
+./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_SLIT 650e-9 1 -4e-2 4e-2 1e-3   "results/singleslit_1.csv"
 
-./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_SLIT -4e-2 4e-2 1e-3   "singleslit_2.csv"
+./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_SLIT 400e-9 1 4e-2 1e-3   "results/singleslit_2.csv"
