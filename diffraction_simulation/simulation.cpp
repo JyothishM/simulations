@@ -101,7 +101,7 @@ void Simulation::Init(BeamType beamType,
 Beam* Simulation::CreateBeam(BeamType beamType)
 {
     Beam* beam=0;
-    switch(mBeamType)
+    switch(beamType)
     {
     case RECTANGLUAR:
         beam = new RectBeam();
@@ -112,10 +112,25 @@ Beam* Simulation::CreateBeam(BeamType beamType)
 Apperture* Simulation::CreateApperture(AppertureType AppType)
 {
     Apperture* apperture=0;
-    switch(mAppType)
+    switch(AppType)
     {
     case SINGLE_SLIT:
         apperture = new SingleSlit();
+        break;
+    case DOUBLE_SLIT:
+        apperture = new DoubleSlit();
+        break;
+    case CIRCULAR_APPERTURE:
+        apperture = new CircularApperture();
+        break;
+    case WIRE_MESH:
+        apperture = new WireMesh();
+        break;
+    case SINGLE_WIRE:
+        apperture = new SingleWire();
+        break;
+    case CROSS_WIRE:
+        apperture = new CrossWire();
         break;
     }
     return apperture;

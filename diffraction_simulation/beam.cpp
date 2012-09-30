@@ -6,7 +6,7 @@ Beam::Beam()
 ///////////////////////RectBeam//////////////////////////////////////////
 RectBeam::RectBeam()
 {
-    mRad = 0.25e-2;
+    mRad = 0.5e-3;
 }
 RectBeam::~RectBeam()
 {

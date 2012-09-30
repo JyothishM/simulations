@@ -1,4 +1,5 @@
 #include "apperture.h"
+#include "qmath.h"
 #include <QtGlobal>
 
 Apperture::Apperture()
@@ -76,7 +77,10 @@ DoubleSlit::~DoubleSlit()
 }
 double DoubleSlit::U(double chi,double ita)
 {
-    return 1;
+    if(qAbs(chi)>(mSaporation/2)  && qAbs(chi)<(mSaporation/2 + mSlitW) &&
+            qAbs(ita)<(mSlitH/2))
+        return 1;
+    return 0;
 }
 void DoubleSlit::SetSlitW(double w)
 {
@@ -105,7 +109,7 @@ double DoubleSlit::GetSaporation()
 ///////////////////////CircularApperture///////////////////////////////////////
 CircularApperture::CircularApperture()
 {
-    mRad = 50e-6;
+    mRad = 75e-6;
 }
 CircularApperture::~CircularApperture()
 {
@@ -113,7 +117,9 @@ CircularApperture::~CircularApperture()
 }
 double CircularApperture::U(double chi,double ita)
 {
-    return 1;
+    if((chi*chi+ita*ita) < (mRad*mRad))
+        return 1;
+    return 0;
 }
 void CircularApperture::SetRadius(double r)
 {
@@ -126,15 +132,30 @@ double CircularApperture::GetRadius()
 ///////////////////////WireMesh///////////////////////////////////////
 WireMesh::WireMesh()
 {
-    mWireDia = 10e-6;
-    mSaporation = 10e-6;
+    mWireDia = 3e-5;
+    mSaporation = 4e-5;
 }
 WireMesh::~WireMesh()
 {
 
 }
+// fn to find modulo
+inline double Modulo(double a,double b)
+{
+    if(!b)
+        return -1;
+    int greatInt = qFloor(a/b);
+    double mod = a - greatInt*b;
+    return mod;
+}
+
 double WireMesh::U(double chi,double ita)
 {
+    double cellDimension = mWireDia+mSaporation;
+    double balX = Modulo(chi,cellDimension);
+    double balY = Modulo(ita,cellDimension);
+    if(balX < mWireDia  && balY < mWireDia)
+        return 0;
     return 1;
 }
 void WireMesh::SetWireDia(double d)
@@ -153,10 +174,10 @@ double WireMesh::GetSaporation()
 {
     return mSaporation;
 }
-///////////////////////SingleSlit///////////////////////////////////////
+///////////////////////SingleWire///////////////////////////////////////
 SingleWire::SingleWire()
 {
-    mWireDia = 100e-6;
+    mWireDia = 150e-6;
 }
 SingleWire::~SingleWire()
 {
@@ -164,6 +185,8 @@ SingleWire::~SingleWire()
 }
 double SingleWire::U(double chi,double ita)
 {
+    if(qAbs(chi) < (mWireDia/2))
+        return 0;
     return 1;
 }
 void SingleWire::SetWireDia(double d)
@@ -174,10 +197,10 @@ double SingleWire::GetWireDia()
 {
     return mWireDia;
 }
-///////////////////////SingleSlit///////////////////////////////////////
+///////////////////////CrossWire///////////////////////////////////////
 CrossWire::CrossWire()
 {
-    mWireDia = 100e-6;
+    mWireDia = 50e-6;
 }
 CrossWire::~CrossWire()
 {
@@ -185,6 +208,9 @@ CrossWire::~CrossWire()
 }
 double CrossWire::U(double chi,double ita)
 {
+    if(qAbs(chi) < (mWireDia/2) ||
+            qAbs(ita) < (mWireDia/2))
+        return 0;
     return 1;
 }
 void CrossWire::SetWireDia(double d)

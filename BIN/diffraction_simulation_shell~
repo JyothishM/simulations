@@ -1,5 +1,16 @@
 export LD_LIBRARY_PATH="simulation_math/debug:simulation_utilities/debug"
 
-./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_SLIT 650e-9 1 -4e-2 4e-2 1e-3   "results/singleslit_1.csv"
+./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_SLIT 650e-9 0.8955 -4e-2 4e-2 0.5e-3   "results/singleslit.csv"
 
-./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_SLIT 400e-9 1 4e-2 1e-3   "results/singleslit_2.csv"
+./diffraction_simulation/debug/diffraction_simulation rectangular DOUBLE_SLIT 650e-9 0.8955 -2e-2 2e-2 0.1e-3   "results/doubleslit.csv"
+
+./diffraction_simulation/debug/diffraction_simulation rectangular CIRCULAR_APPERTURE 650e-9 0.8955 -2e-2 2e-2 0.1e-3   "results/circular_apperture.csv"
+
+./diffraction_simulation/debug/diffraction_simulation rectangular WIRE_MESH 650e-9 0.8955 -2e-2 2e-2 0.1e-3   "results/wiremesh.csv"
+
+./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_WIRE 650e-9 0.8955 -1e-2 1e-2 1e-4   "results/singlewire.csv"
+
+./diffraction_simulation/debug/diffraction_simulation rectangular CROSS_WIRE 650e-9 0.8955 -4e-2 4e-2 0.5e-3   "results/crosswire.csv"
+
+scilab -f "plotgraphs.sce"
+
