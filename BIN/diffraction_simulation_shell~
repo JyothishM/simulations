@@ -10,7 +10,7 @@ export LD_LIBRARY_PATH="simulation_math/debug:simulation_utilities/debug"
 
 ./diffraction_simulation/debug/diffraction_simulation rectangular SINGLE_WIRE 650e-9 0.8955 -1e-2 1e-2 1e-4   "results/singlewire.csv"
 
-./diffraction_simulation/debug/diffraction_simulation rectangular CROSS_WIRE 650e-9 0.8955 -4e-2 4e-2 0.5e-3   "results/crosswire.csv"
+./diffraction_simulation/debug/diffraction_simulation rectangular CROSS_WIRE 650e-9 0.8955 -2e-2 2e-2 0.1e-3   "results/crosswire.csv"
 
 scilab -f "plotgraphs.sce"
 

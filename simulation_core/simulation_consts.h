@@ -1,0 +1,9 @@
+#ifndef SIMULATION_CONSTS_H
+#define SIMULATION_CONSTS_H
+
+#define SETTINGS_CSV_FIELD_SAPORATOR ","
+#define SETTINGS_CSV_FIELD_END "\""
+
+#define STR_SIMTYPE_FIELD "simulation_type"
+
+#endif // SIMULATION_CONSTS_H

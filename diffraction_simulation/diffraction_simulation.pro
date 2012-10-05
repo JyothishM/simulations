@@ -19,14 +19,17 @@ SOURCES += main.cpp \
     apperture.cpp \
     beam.cpp \
     fhdiffraction.cpp \
-    simulation.cpp
+    fhsimulation.cpp \
+    fhsimulationengine.cpp
 
 
 HEADERS += \
     apperture.h \
     beam.h \
     fhdiffraction.h \
-    simulation.h
+    fhsimulation.h \
+    fhsimulationengine.h \
+    FHsimulation_consts.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../BIN/simulation_math/debug/release/ -lsimulation_math
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../BIN/simulation_math/debug/debug/ -lsimulation_math
@@ -43,3 +46,11 @@ else:unix: LIBS += -L$$PWD/../BIN/simulation_utilities/debug/ -lsimulation_utili
 
 INCLUDEPATH += $$PWD/../simulation_utilities
 DEPENDPATH += $$PWD/../simulation_utilities
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../BIN/simulation_core/debug/release/ -lsimulation_core
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../BIN/simulation_core/debug/debug/ -lsimulation_core
+else:symbian: LIBS += -lsimulation_core
+else:unix: LIBS += -L$$PWD/../BIN/simulation_core/debug/ -lsimulation_core
+
+INCLUDEPATH += $$PWD/../simulation_core
+DEPENDPATH += $$PWD/../simulation_core

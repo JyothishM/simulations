@@ -12,11 +12,14 @@ TEMPLATE = lib
 DEFINES += SIMULATION_UTILITIES_LIBRARY
 
 SOURCES += \
-    csvwriter.cpp
+    csvwriter.cpp \
+    csvreader.cpp
 
 HEADERS +=\
         simulation_utilities_global.h \
-    csvwriter.h
+    csvwriter.h \
+    CSVcommon.h \
+    csvreader.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

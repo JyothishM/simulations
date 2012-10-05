@@ -5,14 +5,14 @@
 CSVwriter::CSVwriter()
 {
 }
-bool CSVwriter::WriteCSV(QIODevice * device, CSVTable &table,QString saporator,QString bSaporator)
+bool CSVwriter::WriteCSV(QIODevice * device, CSVTable &table,QString saporator,QString stringEnd)
 {
     QTextStream stream(device);
     foreach(QVariantList line,table)
     {
         foreach(QVariant cell,line)
         {
-            stream << bSaporator << cell.toString() << bSaporator << saporator;
+            stream << stringEnd << cell.toString() << stringEnd << saporator;
         }
         stream << "\n";
     }

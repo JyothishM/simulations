@@ -15,7 +15,8 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    simulation_coreTest.cpp
 
 
 
@@ -34,3 +35,15 @@ else:unix: LIBS += -L$$PWD/../../BIN/simulation_utilities/debug/ -lsimulation_ut
 
 INCLUDEPATH += $$PWD/../../simulation_utilities
 DEPENDPATH += $$PWD/../../simulation_utilities
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../BIN/simulation_core/debug/release/ -lsimulation_core
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../BIN/simulation_core/debug/debug/ -lsimulation_core
+else:symbian: LIBS += -lsimulation_core
+else:unix: LIBS += -L$$PWD/../../BIN/simulation_core/debug/ -lsimulation_core
+
+INCLUDEPATH += $$PWD/../../simulation_core
+DEPENDPATH += $$PWD/../../simulation_core
+
+HEADERS += \
+    simulation_coreTest.h \
+    mathtest.h
